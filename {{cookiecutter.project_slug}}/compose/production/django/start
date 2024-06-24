@@ -11,10 +11,10 @@ compress_enabled() {
 python << END
 import sys
 
-from environ import Env
+from environs import Env
 
-env = Env(COMPRESS_ENABLED=(bool, True))
-if env('COMPRESS_ENABLED'):
+env = Env()
+if env.bool('COMPRESS_ENABLED', True):
     sys.exit(0)
 else:
     sys.exit(1)

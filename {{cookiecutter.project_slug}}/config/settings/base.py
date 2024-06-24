@@ -3,12 +3,12 @@
 
 from pathlib import Path
 
-import environ
+import environs
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # {{ cookiecutter.project_slug }}/
 APPS_DIR = BASE_DIR / "{{ cookiecutter.project_slug }}"
-env = environ.Env()
+env = environs.Env()
 
 READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=False)
 if READ_DOT_ENV_FILE:
@@ -46,10 +46,10 @@ LOCALE_PATHS = [str(BASE_DIR / "locale")]
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 {% if cookiecutter.use_docker == "y" -%}
-DATABASES = {"default": env.db("DATABASE_URL")}
+DATABASES = {"default": env.dj_db_url("DATABASE_URL")}
 {%- else %}
 DATABASES = {
-    "default": env.db(
+    "default": env.dj_db_url(
         "DATABASE_URL",
         default="postgres://{% if cookiecutter.windows == 'y' %}localhost{% endif %}/{{cookiecutter.project_slug}}",
     ),
